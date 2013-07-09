@@ -1,0 +1,24 @@
+[
+    {
+        "caption": "Marker: Load",
+        "command": "load_highlight",
+        "args": {"setting": "word_wrap"}
+    },
+    {
+        "caption": "Marker: Save",
+        "command": "save_highlight",
+        "args": {"setting": "word_wrap"}
+    },
+    {
+        "caption": "Alex: To Python List",
+        "command": "python_list"
+    },
+    {
+        "caption": "Multiple Find Next",
+        "command": "move_to_next"
+    },
+    {
+        "caption": "grep",
+        "command": "grep"
+    }
+]
