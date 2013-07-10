@@ -5,4 +5,6 @@ Highlights selected words or strings. Very useful when looking at logs.
 
 Inspired by Notepad++ highlight feature.
 
-Have save/load option using sqlite database.
+Have save/load option for markers using pickle.
+
+

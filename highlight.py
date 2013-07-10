@@ -2,14 +2,23 @@ import sublime, sublime_plugin
 
 import os
 import sys
-import pysqlite2.dbapi2 as sqlite3
+import pickle
 from collections import defaultdict
+from traceback import print_exc
 
 # This is incremented with change of schema
 _version_ = 1
 
 
 # sublime.set_clipboard(view.syntax_name(view.sel()[0].b))
+
+
+STORAGE_DIR = os.path.join(sublime.installed_packages_path(), "_marker_data")
+try:
+	os.mkdir(STORAGE_DIR)
+except:
+	pass # :D
+
 
 def execute_statements(conn, statements):
 	c = conn.cursor()
@@ -19,7 +28,7 @@ def execute_statements(conn, statements):
 
 class Item(object):
 	"Intended to be immutable to work with set() container"
-	__slots__ = ("selection_name", "token")
+	# __slots__ = ("selection_name", "token")
 	def __init__(self, selection_name, token):
 		self.selection_name, self.token = selection_name, token
 	def __hash__(self):
@@ -35,14 +44,6 @@ class Item(object):
 
 class HighlightState(object):
 	SELECTION_NAME_PREFIX = "highlighter"
-
-	# db goes here "c:\bin\sublime_editor\Data\Installed Packages" 
-	conn = sqlite3.connect(os.path.join(sublime.installed_packages_path(), "highlight_{0}.sqlite3".format(_version_)))
-	# the rule of thumb is: create simplest schema and grow with need
-	execute_statements(conn, [
-		""" create table if not exists simplest(group_name, selection_name, token) """,
-		# """  """,
-		])
 
 	last_group_name = "tes"
 
@@ -71,33 +72,43 @@ class HighlightState(object):
 		if len(self.working_set) == 0:
 			# print "working set empty !"
 			return
-		c = self.conn.cursor()
-		c.execute("delete from simplest where group_name = ?", (group_name,))
-		for item in self.working_set:
-			c.execute("insert into simplest(group_name, selection_name, token) values(?, ?, ?)", (group_name, item.selection_name, item.token))
-		self.conn.commit()
+		filename = os.path.join(STORAGE_DIR, "{0}.pickled".format(group_name))
+		try:
+			with open(filename, 'wb') as f:
+				pickle.dump(self.working_set, f, 0)
+		except:
+			print_exc()
 
 	def load(self, group_name):
-		# clear all from working_set
-		selection_names = set([x.selection_name for x in self.working_set])
-		for selection_name in selection_names:
-			index = self._index_from_selection_name(selection_name)
-			self.remove(index)
-			# self.view.add_regions(selection_name, [], "highlight.none")
-		self.working_set = set()
 		# load data
-		c = self.conn.cursor()
-		c.execute("select selection_name, token from simplest where group_name = ?", (group_name,))
-		data = defaultdict(list)
-		for record in c.fetchall():
-			selection_name, token = record
-			index = self._index_from_selection_name(selection_name)
-			# print "record", record, index
-			data[index].append(token)
-		# print "loaded data:", data
-		# apply data
-		for index, tokens in data.items():
-			self.add(index, tokens)
+		filename = os.path.join(STORAGE_DIR, "{0}.pickled".format(group_name))
+		try:
+			with open(filename, "rb") as f:
+				working_set = pickle.load(f)
+			# run ckeck of working set:
+			if not isinstance(working_set, set):
+				raise Exception("Not a set", working_set)
+			for el in working_set:
+				if not isinstance(el, Item):
+					raise Exception("Not a Item", Item)
+			
+			# clear all from working_set
+			selection_names = set([x.selection_name for x in self.working_set])
+			for selection_name in selection_names:
+				index = self._index_from_selection_name(selection_name)
+				self.remove(index)
+				# self.view.add_regions(selection_name, [], "highlight.none")
+
+			self.working_set = working_set
+			# apply loaded items
+			for item in self.working_set:
+				index = self._index_from_selection_name(item.selection_name)
+				style = "highlight.style{0}".format(index)
+				regions = self.view.get_regions(item.selection_name)
+				regions += self.view.find_all(item.token, sublime.LITERAL | sublime.IGNORECASE)
+				self.view.add_regions(item.selection_name, regions, style) #, flags=sublime.PERSISTENT)
+		except:
+			print_exc()
 
 	def _selection_name_from_index(self, index):
 		return "{0}_{1}".format(self.SELECTION_NAME_PREFIX, index)
@@ -187,6 +198,5 @@ class LoadHighlightCommand(sublime_plugin.TextCommand):
 	def on_done(self, name):
 		state_for_view(self.view).load(name)
 		HighlightState.last_group_name = name
-
 
 
