@@ -1,3 +1,8 @@
+"""
+TODO:
+	- Learn from https://github.com/SublimeText/WordHighlight
+"""
+
 import sublime, sublime_plugin
 
 import os
@@ -5,12 +10,6 @@ import sys
 import pickle
 from collections import defaultdict
 from traceback import print_exc
-
-# This is incremented with change of schema
-_version_ = 1
-
-
-# sublime.set_clipboard(view.syntax_name(view.sel()[0].b))
 
 
 STORAGE_DIR = os.path.join(sublime.installed_packages_path(), "_marker_data")
@@ -120,23 +119,25 @@ class HighlightState(object):
 global_state = {}
 
 def state_for_view(view):
-	if global_state.has_key(view):
-		return global_state[view]
+	key_in_global_state = id(view)
+	if key_in_global_state in global_state:
+		return global_state[key_in_global_state]
 	state = HighlightState(view)
-	global_state[view] = state
+	global_state[key_in_global_state] = state
 	return state
 
 ## DONE: listen for view closed to remove view state from books.
 class HighlightEventListener(sublime_plugin.EventListener):
 	def on_close(self, view):
-		if global_state.has_key(view):
-			del global_state[view]
+		key_in_global_state = id(view)
+		if key_in_global_state in global_state:
+			del global_state[key_in_global_state]
 
 class DebugHighlightCommand(sublime_plugin.TextCommand):
 	def run(self, edit_object):
 		s = state_for_view(self.view)
 		# print "args:", args
-		print "debug:", s.working_set
+		print ("debug:", s.working_set)
 
 class HighlightCommand(sublime_plugin.TextCommand):
 	def run(self, edit_object, index=1):
