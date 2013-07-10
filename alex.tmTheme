@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>author</key>
+	<string>Aleksandar Kordic</string>
+	<key>comment</key>
+	<string>2012</string>
+	<key>name</key>
+	<string>Sunburst</string>
+	<key>settings</key>
+	<array>
+		<dict>
+			<key>name</key><string>highlight1</string>
+			<key>scope</key><string>highlight.style1</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>underline</string>
+				<key>background</key>
+				<string>#646464</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key><string>highlight2</string>
+			<key>scope</key><string>highlight.style2</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>underline</string>
+				<key>background</key>
+				<string>#640000</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key><string>highlight3</string>
+			<key>scope</key><string>highlight.style3</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>underline</string>
+				<key>background</key>
+				<string>#646400</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key><string>highlight4</string>
+			<key>scope</key><string>highlight.style4</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>underline</string>
+				<key>background</key>
+				<string>#003200</string>
+			</dict>
+		</dict>
+	</array>
+	<key>uuid</key>
+	<string>C8C58F9A-35FE-44A4-9BC2-2F3C343DC81D</string>
+</dict>
+</plist>
