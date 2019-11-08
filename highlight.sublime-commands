@@ -18,7 +18,96 @@
         "command": "move_to_next"
     },
     {
+        "caption": "Multiple Select Next",
+        "command": "select_to_next"
+    },
+    {
         "caption": "grep",
         "command": "grep"
-    }
+    },
+    {
+        "caption": "encode hex",
+        "command": "encode_hex"
+    },
+    {
+        "caption": "decode hex",
+        "command": "decode_hex"
+    },
+    {
+        "caption": "hex to decimal",
+        "command": "hex_to_decimal"
+    },
+    {
+        "caption": "decimal to hex",
+        "command": "decimal_to_hex"
+    },
+    {
+        "caption": "base64 encode",
+        "command": "encode_base64"
+    },
+    {
+        "caption": "base64 decode",
+        "command": "decode_base64"
+    },
+    {
+        "caption": "format same parameters",
+        "command": "format_same_params"
+    },
+    {
+        "caption": "expand json brace braket",
+        "command": "expand_braces"
+    },
+    {
+        "caption": "sum add selected numbers",
+        "command": "add_sum_numbers"
+    },
+    {
+        "caption": "increment selected numbers",
+        "command": "increment_numbers"
+    },
+    {
+        "caption": "increment selected numbers sequentially with offset",
+        "command": "increment_sequentially"
+    },
+    {
+        "caption": "multiply selected numbers",
+        "command": "multiply_numbers"
+    },
+    {
+        "caption": "wrap in html element",
+        "command": "wrap_in_div"
+    },
+    
+    {
+        "caption": "sort selected lines",
+        "command": "sort_selected"
+    },
+    {
+        "caption": "sort selected lines reversed",
+        "command": "sort_selected_reversed"
+    },
+    {
+        "caption": "convert timestamp to date",
+        "command": "timestamp_to_date"
+    },
+    {
+        "caption": "seconds to hours minutes seconds",
+        "command": "seconds_to_hours_minutes_seconds"
+    },
+    {
+        "caption": "evaluate expression",
+        "command": "eval_expression"
+    },
+    {
+        "caption": "Keep Every Nth Cursor",
+        "command": "keep_every_nth_cursor"
+    },
+    
+    { "command": "line_ending_win_to_linux", "caption": "Line Ending Win To Linux" },
+    { "command": "line_ending_linux_to_win", "caption": "Line Ending Linux To Win" },
+
+    { "command": "path_to_clipboard", "caption": "File path to Clipboard" },
+    { "command": "filename_to_clipboard", "caption": "Filename to Clipboard" },
+    { "command": "filedir_to_clipboard", "caption": "Filedir to Clipboard" },
+    { "command": "xml_pretty_print", "caption": "Xml Pretty Print" }
 ]
